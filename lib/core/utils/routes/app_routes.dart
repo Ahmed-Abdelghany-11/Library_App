@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/core/utils/routes/route_name.dart';
 
+import '../../../features/auth/presentation/view/screens/login_screen.dart';
+
 class AppRoutes {
   static Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteName.loginScreen:
         return _handelMaterialPageRoute(
-          widget: Placeholder(),
+          widget: LoginScreen(),
           settings: settings,
         );
       case RouteName.signUpScreen:
