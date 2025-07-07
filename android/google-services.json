@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "553956408292",
+    "project_id": "library-app-f619c",
+    "storage_bucket": "library-app-f619c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553956408292:android:02882fd0874510bd04a5f1",
+        "android_client_info": {
+          "package_name": "com.example.library_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDztmf4w7Wl-BIh2v0fZ1bYJ4zptk5AJoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
