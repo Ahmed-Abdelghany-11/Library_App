@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/core/utils/routes/route_name.dart';
+import 'package:library_app/features/main_layout/presentation/view/main_layout.dart';
 
 import '../../../features/auth/presentation/view/screens/login_screen.dart';
 import '../../../features/auth/presentation/view/screens/signup_screen.dart';
@@ -22,6 +23,11 @@ class AppRoutes {
       case RouteName.homeScreen:
         return _handelMaterialPageRoute(
           widget: HomeScreen(),
+          settings: settings,
+        );
+      case RouteName.mainLayout:
+        return _handelMaterialPageRoute(
+          widget: MainLayout(),
           settings: settings,
         );
       default:
