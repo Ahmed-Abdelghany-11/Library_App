@@ -40,4 +40,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       password: request.password,
     );
   }
+
+  @override
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }

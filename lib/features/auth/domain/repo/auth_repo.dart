@@ -7,4 +7,5 @@ abstract class AuthRepo {
   Future<Result<bool>> getCurrentUserState();
   Future<Result<void>> signUp(SignupRequestEntity request);
   Future<Result<void>> signIn(SigninRequestEntity request);
+  Future<Result<void>> signOut();
 }

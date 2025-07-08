@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.appTheme,
       onGenerateRoute: AppRoutes.generateRoute,
-      initialRoute: RouteName.signUpScreen,
+      initialRoute: RouteName.loginScreen,
     );
   }
 }

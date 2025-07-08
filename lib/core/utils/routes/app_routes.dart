@@ -4,6 +4,7 @@ import 'package:library_app/core/utils/routes/route_name.dart';
 
 import '../../../features/auth/presentation/view/screens/login_screen.dart';
 import '../../../features/auth/presentation/view/screens/signup_screen.dart';
+import '../../../features/home/presentation/view/home_screen.dart';
 
 class AppRoutes {
   static Route? generateRoute(RouteSettings settings) {
@@ -20,7 +21,7 @@ class AppRoutes {
         );
       case RouteName.homeScreen:
         return _handelMaterialPageRoute(
-          widget: Placeholder(),
+          widget: HomeScreen(),
           settings: settings,
         );
       default:

@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:injectable/injectable.dart';
 import '../constants.dart';
 import 'api_result.dart';
@@ -17,6 +19,16 @@ class ApiManager {
       );
     } on DioException catch (e) {
       return _handleDioException<T>(e);
+    } on FirebaseAuthException catch (e) {
+      return FailureResult<T>(
+        FirebaseAuthCustomException(
+          message: e.message ?? Constants.authenticationError,
+        ),
+      );
+    } on FirebaseException catch (e) {
+      return FailureResult<T>(
+        FirebaseGeneralException(message: e.message ?? Constants.firebaseError),
+      );
     } on FormatException {
       return FailureResult<T>(
         DataParsingException(message: Constants.dataParsingError),

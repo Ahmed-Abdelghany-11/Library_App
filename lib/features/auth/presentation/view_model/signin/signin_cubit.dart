@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:injectable/injectable.dart';
+import 'package:library_app/core/utils/validators/validator.dart';
 import 'package:library_app/features/auth/presentation/view_model/signin/signin_state.dart';
 
 import '../../../../../core/base/base_state.dart';
@@ -7,9 +9,11 @@ import '../../../../../core/utils/networking/api_result.dart';
 import '../../../domain/entity/signin_request_entity.dart';
 import '../../../domain/usecase/signin_use_case.dart';
 
+@injectable
 class SigninCubit extends Cubit<SigninState> {
   final SigninUseCase _signinUseCase;
-  SigninCubit(this._signinUseCase)
+  final Validator validator;
+  SigninCubit(this._signinUseCase, this.validator)
     : super(SigninState(signinState: BaseInitialState()));
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

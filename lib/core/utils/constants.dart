@@ -28,4 +28,8 @@ class Constants {
   static const String sendTimeout = 'Send timeout';
   static const String receiveTimeout = 'Receive timeout';
   static const String timeoutOccurred = 'A timeout occurred';
+
+  // Firebase Specific
+  static const String authenticationError = 'Authentication failed';
+  static const String firebaseError = 'Firebase operation failed';
 }

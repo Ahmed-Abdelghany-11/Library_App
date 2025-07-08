@@ -65,3 +65,13 @@ final class UnknownApiException extends ApiException {
 final class DataParsingException extends ApiException {
   const DataParsingException({required super.message}) : super(statusCode: 500);
 }
+
+final class FirebaseAuthCustomException extends ApiException {
+  const FirebaseAuthCustomException({required super.message})
+    : super(statusCode: 401);
+}
+
+final class FirebaseGeneralException extends ApiException {
+  const FirebaseGeneralException({required super.message})
+    : super(statusCode: 500);
+}

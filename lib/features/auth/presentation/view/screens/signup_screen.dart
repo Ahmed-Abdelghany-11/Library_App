@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/core/base/base_state.dart';
 import 'package:library_app/core/utils/di/di.dart';
+import '../../../../../core/assets/app_colors.dart';
 import '../../../../../core/utils/routes/route_name.dart';
 import '../../view_model/signup/signup_cubit.dart';
 import '../../view_model/signup/signup_state.dart';
@@ -39,9 +40,12 @@ class SignupScreen extends StatelessWidget {
                         Navigator.of(context, rootNavigator: true).maybePop();
                         final errorMessage =
                             (state.signupState as BaseErrorState).errorMessage;
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text(errorMessage)));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(errorMessage),
+                            backgroundColor: AppColors.red,
+                          ),
+                        );
                       } else if (state.signupState is BaseLoadingState) {
                         showDialog(
                           context: context,

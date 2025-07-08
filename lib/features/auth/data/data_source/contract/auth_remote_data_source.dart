@@ -5,4 +5,5 @@ abstract class AuthRemoteDataSource {
   Future<bool> getCurrentUserState();
   Future<void> signUp(SignupRequestDto request);
   Future<void> signIn(SigninRequestDto request);
+  Future<void> signOut();
 }
