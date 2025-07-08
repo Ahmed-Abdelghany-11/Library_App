@@ -36,6 +36,8 @@ import '../../../features/auth/presentation/view_model/signin/signin_cubit.dart'
     as _i703;
 import '../../../features/auth/presentation/view_model/signup/signup_cubit.dart'
     as _i122;
+import '../../../features/main_layout/presentation/view_model/main_layout_cubit.dart'
+    as _i233;
 import '../bloc_observer/bloc_observer_service.dart' as _i649;
 import '../flutter_secure_storage_module.dart' as _i712;
 import '../logging/logger_module.dart' as _i470;
@@ -55,6 +57,7 @@ extension GetItInjectableX on _i174.GetIt {
     final secureStorageModule = _$SecureStorageModule();
     final loggerModule = _$LoggerModule();
     final dioModule = _$DioModule();
+    gh.factory<_i233.MainLayoutCubit>(() => _i233.MainLayoutCubit());
     gh.singleton<_i943.ApiManager>(() => _i943.ApiManager());
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.auth);
     gh.lazySingleton<_i974.FirebaseFirestore>(() => firebaseModule.firestore);

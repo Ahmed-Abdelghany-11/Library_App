@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
                       if (state.signinState is BaseSuccessState) {
                         Navigator.pushReplacementNamed(
                           context,
-                          RouteName.homeScreen,
+                          RouteName.mainLayout,
                         );
                       } else if (state.signinState is BaseErrorState) {
                         Navigator.of(context, rootNavigator: true).maybePop();
