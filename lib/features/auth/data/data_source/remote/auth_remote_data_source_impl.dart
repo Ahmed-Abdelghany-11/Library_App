@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:library_app/features/auth/data/data_source/contract/auth_remote_data_source.dart';
+import 'package:library_app/features/auth/data/model/signin_request_dto.dart';
 
 import '../../model/signup_request_dto.dart';
 
@@ -30,5 +31,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     request.id = uid;
 
     await _firestore.collection('users').doc(uid).set(request.toJson());
+  }
+
+  @override
+  Future<void> signIn(SigninRequestDto request) async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: request.email,
+      password: request.password,
+    );
+  }
+
+  @override
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

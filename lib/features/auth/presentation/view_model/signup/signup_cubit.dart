@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:library_app/core/base/base_state.dart';
 import 'package:library_app/core/utils/networking/api_result.dart';
 import 'package:library_app/core/utils/validators/validator.dart';
-import 'package:library_app/features/auth/domain/entity/user_request_entity.dart';
+import 'package:library_app/features/auth/domain/entity/signup_request_entity.dart';
 import 'package:library_app/features/auth/presentation/view_model/signup/signup_state.dart';
 
 import '../../../domain/usecase/signup_use_case.dart';
@@ -28,7 +28,7 @@ class SignupCubit extends Cubit<SignupState> {
     if (formKey.currentState?.validate() ?? false) {
       emit(state.copyWith(signupState: BaseLoadingState()));
       final result = await _signupUseCase.call(
-        UserRequestEntity(
+        SignupRequestEntity(
           firstName: firstNameController.text,
           lastName: lastNameController.text,
           email: emailController.text,

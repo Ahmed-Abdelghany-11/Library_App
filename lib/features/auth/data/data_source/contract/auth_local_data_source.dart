@@ -1,1 +1,5 @@
-abstract class AuthLocalDataSource {}
+abstract class AuthLocalDataSource {
+  Future<void> saveUserId(String userId);
+  Future<String?> getUserId();
+  Future<void> clearUserId();
+}

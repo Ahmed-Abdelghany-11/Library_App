@@ -1,4 +1,4 @@
-class UserRequestEntity {
+class SignupRequestEntity {
   String? id;
   String? firstName;
   String? lastName;
@@ -6,7 +6,7 @@ class UserRequestEntity {
   String? password;
   String? confirmPassword;
 
-  UserRequestEntity({
+  SignupRequestEntity({
     this.id,
     this.firstName,
     this.lastName,
