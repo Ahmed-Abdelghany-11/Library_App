@@ -5,7 +5,6 @@ class SignupRequestDto {
   String? firstName;
   String? lastName;
   String? email;
-  String? phoneNumber;
   String? password;
   String? confirmPassword;
 
@@ -14,7 +13,6 @@ class SignupRequestDto {
     this.firstName,
     this.lastName,
     this.email,
-    this.phoneNumber,
     this.password,
     this.confirmPassword,
   });
@@ -24,7 +22,6 @@ class SignupRequestDto {
     firstName = json['firstName'];
     lastName = json['lastName'];
     email = json['email'];
-    phoneNumber = json['phoneNumber'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +30,6 @@ class SignupRequestDto {
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['email'] = email;
-    data['phoneNumber'] = phoneNumber;
     return data;
   }
 
@@ -43,7 +39,6 @@ class SignupRequestDto {
       firstName: entity.firstName,
       lastName: entity.lastName,
       email: entity.email,
-      phoneNumber: entity.phoneNumber,
       password: entity.password,
       confirmPassword: entity.confirmPassword,
     );

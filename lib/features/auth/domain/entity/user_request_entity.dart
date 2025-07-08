@@ -3,7 +3,6 @@ class UserRequestEntity {
   String? firstName;
   String? lastName;
   String? email;
-  String? phoneNumber;
   String? password;
   String? confirmPassword;
 
@@ -12,7 +11,6 @@ class UserRequestEntity {
     this.firstName,
     this.lastName,
     this.email,
-    this.phoneNumber,
     this.password,
     this.confirmPassword,
   });

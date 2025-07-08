@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:library_app/core/utils/routes/route_name.dart';
 
 import '../../../features/auth/presentation/view/screens/login_screen.dart';
+import '../../../features/auth/presentation/view/screens/signup_screen.dart';
 
 class AppRoutes {
   static Route? generateRoute(RouteSettings settings) {
@@ -14,7 +15,7 @@ class AppRoutes {
         );
       case RouteName.signUpScreen:
         return _handelMaterialPageRoute(
-          widget: Placeholder(),
+          widget: SignupScreen(),
           settings: settings,
         );
       case RouteName.homeScreen:

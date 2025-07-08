@@ -26,6 +26,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final uid = credential.user?.uid;
+
     request.id = uid;
 
     await _firestore.collection('users').doc(uid).set(request.toJson());
