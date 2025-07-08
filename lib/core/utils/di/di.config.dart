@@ -38,7 +38,7 @@ import '../logging/logger_module.dart' as _i470;
 import '../networking/api_manager.dart' as _i943;
 import '../networking/dio_module.dart' as _i444;
 import '../validators/validator.dart' as _i437;
-import 'modules/firebase_firestore_module.dart' as _i466;
+import 'modules/firebase_module.dart' as _i398;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -47,21 +47,19 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final firebaseModule = _$FirebaseModule();
     final secureStorageModule = _$SecureStorageModule();
     final loggerModule = _$LoggerModule();
-    final firebaseInjectableModule = _$FirebaseInjectableModule();
     final dioModule = _$DioModule();
     gh.singleton<_i943.ApiManager>(() => _i943.ApiManager());
+    gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.auth);
+    gh.lazySingleton<_i974.FirebaseFirestore>(() => firebaseModule.firestore);
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => secureStorageModule.storage,
     );
     gh.lazySingleton<_i974.Logger>(() => loggerModule.loggerProvider);
     gh.lazySingleton<_i974.PrettyPrinter>(() => loggerModule.prettyPrinter);
     gh.lazySingleton<_i437.Validator>(() => _i437.Validator());
-    gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseInjectableModule.auth);
-    gh.lazySingleton<_i974.FirebaseFirestore>(
-      () => firebaseInjectableModule.firestore,
-    );
     gh.singleton<_i649.BlocObserverService>(
       () => _i649.BlocObserverService(gh<_i974.Logger>()),
     );
@@ -96,10 +94,10 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
+class _$FirebaseModule extends _i398.FirebaseModule {}
+
 class _$SecureStorageModule extends _i712.SecureStorageModule {}
 
 class _$LoggerModule extends _i470.LoggerModule {}
-
-class _$FirebaseInjectableModule extends _i466.FirebaseInjectableModule {}
 
 class _$DioModule extends _i444.DioModule {}

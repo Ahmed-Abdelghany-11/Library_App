@@ -1,4 +1,4 @@
-import '../../domain/entity/user_request_entity.dart';
+import '../../domain/entity/signup_request_entity.dart';
 
 class SignupRequestDto {
   String? id;
@@ -33,7 +33,7 @@ class SignupRequestDto {
     return data;
   }
 
-  factory SignupRequestDto.fromEntity(UserRequestEntity entity) {
+  factory SignupRequestDto.fromEntity(SignupRequestEntity entity) {
     return SignupRequestDto(
       id: entity.id,
       firstName: entity.firstName,
