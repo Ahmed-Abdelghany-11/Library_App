@@ -77,10 +77,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
-  build_runner: ^2.5.4
-  injectable_generator: ^2.7.0
-  json_serializable: ^6.9.5
-  retrofit_generator: ^9.2.0
+  build_runner:
+  injectable_generator:
+  json_serializable:
+  retrofit_generator:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
