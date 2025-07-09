@@ -5,6 +5,7 @@ import 'package:library_app/features/main_layout/presentation/view/main_layout.d
 
 import '../../../features/auth/presentation/view/screens/login_screen.dart';
 import '../../../features/auth/presentation/view/screens/signup_screen.dart';
+import '../../../features/book_details/presentation/view/book_details_screen.dart';
 import '../../../features/home/presentation/view/home_screen.dart';
 
 class AppRoutes {
@@ -28,6 +29,17 @@ class AppRoutes {
       case RouteName.mainLayout:
         return _handelMaterialPageRoute(
           widget: MainLayout(),
+          settings: settings,
+        );
+      case RouteName.bookDetailsScreen:
+        return _handelMaterialPageRoute(
+          widget: BookDetailsScreen(),
+          settings: settings,
+        );
+        return _handelMaterialPageRoute(
+          widget: const Scaffold(
+            body: Center(child: Text('Book Details Screen')),
+          ),
           settings: settings,
         );
       default:
