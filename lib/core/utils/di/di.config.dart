@@ -36,6 +36,16 @@ import '../../../features/auth/presentation/view_model/signin/signin_cubit.dart'
     as _i703;
 import '../../../features/auth/presentation/view_model/signup/signup_cubit.dart'
     as _i122;
+import '../../../features/book_details/data/data_source/contract/book_details_remote_data_source.dart'
+    as _i830;
+import '../../../features/book_details/data/data_source/remote/book_details_remote_data_source_impl.dart'
+    as _i284;
+import '../../../features/book_details/data/repo_impl/book_details_repo_impl.dart'
+    as _i1072;
+import '../../../features/book_details/domain/repo/book_details_repo.dart'
+    as _i148;
+import '../../../features/book_details/domain/usecase/get_book_reviews_use_case.dart'
+    as _i92;
 import '../../../features/home/data/data_source/contract/home_remote_data_source.dart'
     as _i1043;
 import '../../../features/home/data/data_source/remote/home_remote_data_source_impl.dart'
@@ -46,8 +56,6 @@ import '../../../features/home/domain/usecase/get_all_books_use_case.dart'
     as _i413;
 import '../../../features/home/domain/usecase/get_book_by_id_use_case.dart'
     as _i443;
-import '../../../features/home/domain/usecase/get_book_reviews_use_case.dart'
-    as _i59;
 import '../../../features/home/presentation/view_model/home_cubit.dart'
     as _i595;
 import '../../../features/main_layout/presentation/view_model/main_layout_cubit.dart'
@@ -97,6 +105,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1015.AuthLocalDataSource>(
       () => _i241.AuthLocalDataSourceImpl(gh<_i558.FlutterSecureStorage>()),
     );
+    gh.factory<_i830.BookDetailsRemoteDataSource>(
+      () =>
+          _i284.BookDetailsRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
+    gh.factory<_i148.BookDetailsRepo>(
+      () => _i1072.BookDetailsRepoImpl(
+        gh<_i830.BookDetailsRemoteDataSource>(),
+        gh<_i943.ApiManager>(),
+      ),
+    );
     gh.factory<_i1043.HomeRemoteDataSource>(
       () => _i859.HomeRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
     );
@@ -118,6 +136,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i943.ApiManager>(),
         gh<_i1015.AuthLocalDataSource>(),
       ),
+    );
+    gh.factory<_i92.GetBookReviewsUseCase>(
+      () => _i92.GetBookReviewsUseCase(gh<_i148.BookDetailsRepo>()),
     );
     gh.factory<_i242.HomeRepo>(
       () => _i801.HomeRepoImpl(
@@ -157,9 +178,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i443.GetBookByIdUseCase>(
       () => _i443.GetBookByIdUseCase(gh<_i242.HomeRepo>()),
-    );
-    gh.factory<_i59.GetBookReviewsUseCase>(
-      () => _i59.GetBookReviewsUseCase(gh<_i242.HomeRepo>()),
     );
     gh.factory<_i703.SigninCubit>(
       () => _i703.SigninCubit(gh<_i612.SigninUseCase>(), gh<_i437.Validator>()),
