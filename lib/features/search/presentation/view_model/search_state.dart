@@ -20,3 +20,5 @@ class SearchBooks extends SearchAction {
 
   SearchBooks(this.query);
 }
+
+class OnSearchChanged extends SearchAction {}

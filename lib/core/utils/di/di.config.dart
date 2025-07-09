@@ -52,6 +52,16 @@ import '../../../features/home/presentation/view_model/home_cubit.dart'
     as _i595;
 import '../../../features/main_layout/presentation/view_model/main_layout_cubit.dart'
     as _i233;
+import '../../../features/search/data/data_source/contract/search_remote_data_source.dart'
+    as _i424;
+import '../../../features/search/data/data_source/remote/search_remote_data_source_impl.dart'
+    as _i88;
+import '../../../features/search/data/repo_impl/search_repo_impl.dart'
+    as _i1058;
+import '../../../features/search/domain/repo/search_repo.dart' as _i884;
+import '../../../features/search/domain/usecase/search_use_case.dart' as _i605;
+import '../../../features/search/presentation/view_model/search_cubit.dart'
+    as _i541;
 import '../bloc_observer/bloc_observer_service.dart' as _i649;
 import '../flutter_secure_storage_module.dart' as _i712;
 import '../logging/logger_module.dart' as _i470;
@@ -99,6 +109,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () => dioModule.provideDio(gh<_i558.FlutterSecureStorage>()),
     );
+    gh.factory<_i424.SearchRemoteDataSource>(
+      () => _i88.SearchRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
     gh.factory<_i913.AuthRepo>(
       () => _i822.AuthRepoImpl(
         gh<_i305.AuthRemoteDataSource>(),
@@ -111,6 +124,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1043.HomeRemoteDataSource>(),
         gh<_i943.ApiManager>(),
       ),
+    );
+    gh.factory<_i884.SearchRepo>(
+      () => _i1058.SearchRepoImpl(
+        gh<_i424.SearchRemoteDataSource>(),
+        gh<_i943.ApiManager>(),
+      ),
+    );
+    gh.factory<_i605.SearchUseCase>(
+      () => _i605.SearchUseCase(gh<_i884.SearchRepo>()),
     );
     gh.factory<_i330.GetUserStateUseCase>(
       () => _i330.GetUserStateUseCase(gh<_i913.AuthRepo>()),
@@ -126,6 +148,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i122.SignupCubit>(
       () => _i122.SignupCubit(gh<_i955.SignupUseCase>(), gh<_i437.Validator>()),
+    );
+    gh.factory<_i541.SearchCubit>(
+      () => _i541.SearchCubit(gh<_i605.SearchUseCase>()),
     );
     gh.factory<_i413.GetAllBooksUseCase>(
       () => _i413.GetAllBooksUseCase(gh<_i242.HomeRepo>()),

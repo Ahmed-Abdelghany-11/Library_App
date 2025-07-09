@@ -11,7 +11,10 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   @override
   Future<List<BookDto>> searchBook(String query) async {
     final booksCollection = _firestore.collection('books');
-    final books = await booksCollection.where('title', isEqualTo: query).get();
+    final books = await booksCollection
+        .where('title', isGreaterThanOrEqualTo: query)
+        .where('title', isLessThan: '$query\uf8ff')
+        .get();
     return books.docs
         .map((doc) => BookDto.fromFirestore(doc.data(), doc.id))
         .toList();
