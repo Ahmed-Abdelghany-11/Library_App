@@ -36,6 +36,20 @@ import '../../../features/auth/presentation/view_model/signin/signin_cubit.dart'
     as _i703;
 import '../../../features/auth/presentation/view_model/signup/signup_cubit.dart'
     as _i122;
+import '../../../features/home/data/data_source/contract/home_remote_data_source.dart'
+    as _i1043;
+import '../../../features/home/data/data_source/remote/home_remote_data_source_impl.dart'
+    as _i859;
+import '../../../features/home/data/repo_impl/home_repo_impl.dart' as _i801;
+import '../../../features/home/domain/repo/home_repo.dart' as _i242;
+import '../../../features/home/domain/usecase/get_all_books_use_case.dart'
+    as _i413;
+import '../../../features/home/domain/usecase/get_book_by_id_use_case.dart'
+    as _i443;
+import '../../../features/home/domain/usecase/get_book_reviews_use_case.dart'
+    as _i59;
+import '../../../features/home/presentation/view_model/home_cubit.dart'
+    as _i595;
 import '../../../features/main_layout/presentation/view_model/main_layout_cubit.dart'
     as _i233;
 import '../bloc_observer/bloc_observer_service.dart' as _i649;
@@ -73,6 +87,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1015.AuthLocalDataSource>(
       () => _i241.AuthLocalDataSourceImpl(gh<_i558.FlutterSecureStorage>()),
     );
+    gh.factory<_i1043.HomeRemoteDataSource>(
+      () => _i859.HomeRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
     gh.factory<_i305.AuthRemoteDataSource>(
       () => _i212.AuthRemoteDataSourceImpl(
         gh<_i59.FirebaseAuth>(),
@@ -87,6 +104,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i305.AuthRemoteDataSource>(),
         gh<_i943.ApiManager>(),
         gh<_i1015.AuthLocalDataSource>(),
+      ),
+    );
+    gh.factory<_i242.HomeRepo>(
+      () => _i801.HomeRepoImpl(
+        gh<_i1043.HomeRemoteDataSource>(),
+        gh<_i943.ApiManager>(),
       ),
     );
     gh.factory<_i330.GetUserStateUseCase>(
@@ -104,8 +127,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i122.SignupCubit>(
       () => _i122.SignupCubit(gh<_i955.SignupUseCase>(), gh<_i437.Validator>()),
     );
+    gh.factory<_i413.GetAllBooksUseCase>(
+      () => _i413.GetAllBooksUseCase(gh<_i242.HomeRepo>()),
+    );
+    gh.factory<_i443.GetBookByIdUseCase>(
+      () => _i443.GetBookByIdUseCase(gh<_i242.HomeRepo>()),
+    );
+    gh.factory<_i59.GetBookReviewsUseCase>(
+      () => _i59.GetBookReviewsUseCase(gh<_i242.HomeRepo>()),
+    );
     gh.factory<_i703.SigninCubit>(
       () => _i703.SigninCubit(gh<_i612.SigninUseCase>(), gh<_i437.Validator>()),
+    );
+    gh.factory<_i595.HomeCubit>(
+      () => _i595.HomeCubit(gh<_i413.GetAllBooksUseCase>()),
     );
     return this;
   }
