@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:injectable/injectable.dart';
 import 'package:library_app/core/base/base_state.dart';
 import 'package:library_app/core/utils/networking/api_result.dart';
 import 'package:library_app/features/book_details/domain/entity/review_entity.dart';
@@ -11,10 +12,12 @@ import '../../domain/usecase/get_book_reviews_use_case.dart';
 import '../../domain/usecase/get_use_data_use_case.dart';
 import 'book_details_state.dart';
 
+@injectable
 class BookDetailsCubit extends Cubit<BookDetailsState> {
   final AddBookReviewUseCase _addBookReviewUseCase;
   final GetBookReviewsUseCase _getBookReviewsUseCase;
   final GetUseDataUseCase _getUseDataUseCase;
+
   BookDetailsCubit(
     this._addBookReviewUseCase,
     this._getBookReviewsUseCase,
@@ -23,11 +26,13 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
         BookDetailsState(
           addReviewState: BaseInitialState(),
           getReviewState: BaseInitialState(),
+          getUserDataState: BaseInitialState(),
         ),
       );
 
   final TextEditingController reviewTextController = TextEditingController();
   final TextEditingController ratingController = TextEditingController();
+  int selectedRating = 0;
 
   Future<void> _getBookReviews(String bookId) async {
     emit(state.copyWith(getReviewState: BaseLoadingState()));
@@ -66,7 +71,9 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
     switch (result) {
       case SuccessResult<void>():
         emit(state.copyWith(addReviewState: BaseSuccessState()));
-        _getBookReviews(bookId);
+        await _getBookReviews(bookId);
+        reviewTextController.clear();
+        ratingController.clear();
       case FailureResult<void>():
         emit(
           state.copyWith(
@@ -79,22 +86,28 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
   }
 
   Future<void> _getUserData() async {
-    emit(state.copyWith(getReviewState: BaseLoadingState()));
+    emit(state.copyWith(getUserDataState: BaseLoadingState()));
     final result = await _getUseDataUseCase.call();
     switch (result) {
       case SuccessResult<UserEntity>():
         emit(
-          state.copyWith(getReviewState: BaseSuccessState(data: result.data)),
+          state.copyWith(getUserDataState: BaseSuccessState(data: result.data)),
         );
       case FailureResult<UserEntity>():
         emit(
           state.copyWith(
-            getReviewState: BaseErrorState(
+            getUserDataState: BaseErrorState(
               errorMessage: result.exception.toString(),
             ),
           ),
         );
     }
+  }
+
+  void updateSelectedRating(int rating) {
+    selectedRating = rating;
+    ratingController.text = rating.toString();
+    emit(state.copyWith());
   }
 
   void doIntent(BookDetailsAction action) {

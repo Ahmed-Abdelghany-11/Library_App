@@ -10,16 +10,13 @@ class BookCoverSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: AspectRatio(
-          aspectRatio: 3 / 4,
-          child: book.coverUrl != null
-              ? Image.network(book.coverUrl!, fit: BoxFit.fill)
-              : Container(color: AppColors.lightGray.withValues(alpha: 0.1)),
-        ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: AspectRatio(
+        aspectRatio: 3 / 4,
+        child: book.coverUrl != null
+            ? Image.network(book.coverUrl!, fit: BoxFit.fill)
+            : Container(color: AppColors.lightGray.withValues(alpha: 0.1)),
       ),
     );
   }
