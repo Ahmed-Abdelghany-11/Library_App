@@ -9,7 +9,7 @@ class GetUseDataUseCase {
   final BookDetailsRepo _bookDetailsRepo;
   GetUseDataUseCase(this._bookDetailsRepo);
 
-  Future<Result<UserEntity>> call(String userId) async {
-    return await _bookDetailsRepo.getUserData(userId);
+  Future<Result<UserEntity>> call() async {
+    return await _bookDetailsRepo.getUserData();
   }
 }

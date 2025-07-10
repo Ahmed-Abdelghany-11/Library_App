@@ -6,5 +6,5 @@ import '../entity/user_entity.dart';
 abstract class BookDetailsRepo {
   Future<Result<List<ReviewEntity>>> getBookReviews(String bookId);
   Future<Result<void>> addBookReview(AddReviewEntity review);
-  Future<Result<UserEntity>> getUserData(String userId);
+  Future<Result<UserEntity>> getUserData();
 }
