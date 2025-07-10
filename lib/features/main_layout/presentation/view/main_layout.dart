@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/features/home/presentation/view/home_screen.dart';
-import 'package:library_app/features/library/presentaion/my_library_screen.dart';
+import 'package:library_app/features/library/presentaion/view/my_library_screen.dart';
 import 'package:library_app/features/search/presentation/view/search_screen.dart';
 
 import '../../../../core/utils/di/di.dart';

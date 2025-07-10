@@ -4,6 +4,7 @@ import 'package:library_app/features/book_details/data/data_source/contract/book
 import 'package:library_app/features/book_details/data/model/add_review_request_dto.dart';
 import 'package:library_app/features/book_details/data/model/review_dto.dart';
 import 'package:library_app/features/book_details/data/model/user_dto.dart';
+import 'package:library_app/features/home/data/model/book_dto.dart';
 
 @Injectable(as: BookDetailsRemoteDataSource)
 class BookDetailsRemoteDataSourceImpl implements BookDetailsRemoteDataSource {
@@ -51,5 +52,11 @@ class BookDetailsRemoteDataSourceImpl implements BookDetailsRemoteDataSource {
   Future<UserDto> getUserData(String userId) async {
     final snapshot = await firestore.collection('users').doc(userId).get();
     return UserDto.fromFirestore(snapshot.data()!, userId);
+  }
+
+  @override
+  Future<void> addBookToReadingList(String readingListId, BookDto book) {
+    // TODO: implement addBookToReadingList
+    throw UnimplementedError();
   }
 }
