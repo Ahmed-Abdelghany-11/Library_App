@@ -51,4 +51,9 @@ class SearchCubit extends Cubit<SearchState> {
         _onSearchChanged();
     }
   }
+
+  void dispose() {
+    searchController.dispose();
+    super.close();
+  }
 }

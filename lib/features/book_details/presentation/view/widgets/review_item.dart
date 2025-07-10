@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../domain/entity/review_entity.dart';
+
 class ReviewItem extends StatelessWidget {
-  const ReviewItem({super.key});
+  final ReviewEntity review;
+
+  const ReviewItem({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
@@ -15,65 +19,34 @@ class ReviewItem extends StatelessWidget {
               const CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(
-                  'https://i.pravatar.cc/100?img=5',
+                  'https://cdn.vectorstock.com/i/1000x1000/89/97/man-male-avatar-silhouette-person-icon-vector-10248997.webp',
                 ),
               ),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'Reviewer Name',
-                    style: TextStyle(
-                      color: Color(0xFF111418),
+                    review.username ?? 'Unknown',
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 2),
-                  Text(
-                    '2 months ago',
-                    style: TextStyle(color: Color(0xFF637488), fontSize: 12),
-                  ),
+                  const SizedBox(height: 2),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 8),
           Row(
-            children: List.generate(5, (i) {
-              return const Icon(Icons.star, size: 16, color: Color(0xFF111418));
-            }),
+            children: List.generate(
+              review.rating?.toInt() ?? 0,
+              (_) => const Icon(Icons.star, size: 16, color: Colors.amber),
+            ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'This is a sample review text. Absolutely captivating! The world-building is phenomenal...',
-            style: TextStyle(color: Color(0xFF111418), fontSize: 14),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.thumb_up,
-                  size: 18,
-                  color: Color(0xFF637488),
-                ),
-                onPressed: () {},
-              ),
-              const Text('15', style: TextStyle(color: Color(0xFF637488))),
-              const SizedBox(width: 24),
-              IconButton(
-                icon: const Icon(
-                  Icons.thumb_down,
-                  size: 18,
-                  color: Color(0xFF637488),
-                ),
-                onPressed: () {},
-              ),
-              const Text('2', style: TextStyle(color: Color(0xFF637488))),
-            ],
-          ),
+          Text(review.reviewText ?? '', style: const TextStyle(fontSize: 14)),
         ],
       ),
     );

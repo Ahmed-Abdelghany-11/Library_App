@@ -18,34 +18,31 @@ class BookInfoSection extends StatelessWidget {
     final pageInfo =
         '${categories}${categories.isNotEmpty && book.pageCount != null ? ' • ' : ''}${book.pageCount ?? ''} pages';
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        children: [
-          const SizedBox(height: 12),
-          Text(
-            book.title ?? '',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: AppColors.black,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+    return Column(
+      children: [
+        const SizedBox(height: 12),
+        Text(
+          book.title ?? '',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: AppColors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 4),
-          Text(
-            book.author ?? '',
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: AppColors.lightGray, fontSize: 14),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            pageInfo,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: AppColors.lightGray, fontSize: 14),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          book.author ?? '',
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: AppColors.lightGray, fontSize: 14),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          pageInfo,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: AppColors.lightGray, fontSize: 14),
+        ),
+      ],
     );
   }
 }

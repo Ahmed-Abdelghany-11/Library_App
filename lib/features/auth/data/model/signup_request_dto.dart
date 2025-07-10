@@ -17,14 +17,7 @@ class SignupRequestDto {
     this.confirmPassword,
   });
 
-  SignupRequestDto.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    email = json['email'];
-  }
-
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toFirestore() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['firstName'] = firstName;
