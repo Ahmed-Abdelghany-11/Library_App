@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/assets/app_colors.dart';
 import '../../../../../core/base/base_state.dart';
 import '../../../../home/domain/entity/book_entity.dart';
 import '../../view_model/book_details_cubit.dart';
@@ -17,7 +18,31 @@ class AddToReadingListBottomSheet extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: BlocBuilder<BookDetailsCubit, BookDetailsState>(
+      child: BlocConsumer<BookDetailsCubit, BookDetailsState>(
+        listenWhen: (previous, current) =>
+            previous.addBookToReadingListState !=
+            current.addBookToReadingListState,
+        listener: (context, state) {
+          final addState = state.addBookToReadingListState;
+
+          if (addState is BaseSuccessState) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Book added to reading list'),
+                backgroundColor: AppColors.green,
+              ),
+            );
+          } else if (addState is BaseErrorState) {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Error: ${addState.errorMessage}'),
+                backgroundColor: AppColors.red,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           final readingListState = state.getUserReadingListsState;
 
@@ -57,27 +82,10 @@ class AddToReadingListBottomSheet extends StatelessWidget {
                 ...lists.map<Widget>((list) {
                   return ListTile(
                     title: Text(list.name ?? ''),
-                    onTap: () async {
+                    onTap: () {
                       viewModel.readingListController.text = list.id ?? '';
-
                       viewModel.doIntent(
                         AddBookToReadingList(list.id ?? '', book),
-                      );
-
-                      Navigator.pop(context);
-
-                      final result = viewModel.state.addBookToReadingListState;
-
-                      ScaffoldMessenger.of(
-                        Navigator.of(context).context,
-                      ).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            result is BaseSuccessState
-                                ? 'Book added to ${list.name}'
-                                : 'Error: ${(result as BaseErrorState).errorMessage}',
-                          ),
-                        ),
                       );
                     },
                   );

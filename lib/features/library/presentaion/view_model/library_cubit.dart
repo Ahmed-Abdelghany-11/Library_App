@@ -164,4 +164,10 @@ class LibraryCubit extends Cubit<LibraryState> {
       (index) => chars[rand.nextInt(chars.length)],
     ).join();
   }
+
+  @override
+  Future<void> close() {
+    readingListNameController.dispose();
+    return super.close();
+  }
 }
