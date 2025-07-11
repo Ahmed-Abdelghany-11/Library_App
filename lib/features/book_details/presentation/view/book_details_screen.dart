@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/features/book_details/presentation/view/widgets/add_review_bottom_sheet.dart';
+import 'package:library_app/features/book_details/presentation/view/widgets/add_to_reading_list_bottom_sheet.dart';
 import 'package:library_app/features/book_details/presentation/view/widgets/book_cover_section.dart';
 import 'package:library_app/features/book_details/presentation/view/widgets/book_description_section.dart';
 import 'package:library_app/features/book_details/presentation/view/widgets/book_info_section.dart';
@@ -60,13 +61,35 @@ class BookDetailsScreen extends StatelessWidget {
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
-                          builder: (_) => AddReviewBottomSheet(
-                            bookId: book.id!,
-                            viewModel: viewModel,
+                          builder: (context) => BlocProvider.value(
+                            value: viewModel,
+                            child: AddReviewBottomSheet(bookId: book.id!),
                           ),
                         );
                       },
                       child: const Text('Add Review'),
+                    ),
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverToBoxAdapter(
+                child: Center(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        viewModel.doIntent(GetUserReadingLists());
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => BlocProvider.value(
+                            value: viewModel,
+                            child: AddToReadingListBottomSheet(book: book),
+                          ),
+                        );
+                      },
+                      child: const Text('Add to Reading List'),
                     ),
                   ),
                 ),

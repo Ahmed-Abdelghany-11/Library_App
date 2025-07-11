@@ -7,5 +7,9 @@ abstract class BookDetailsRemoteDataSource {
   Future<List<ReviewDto>> getBookReviews(String bookId);
   Future<void> addBookReview(AddReviewRequestDto review);
   Future<UserDto> getUserData(String userId);
-  Future<void> addBookToReadingList(String readingListId, BookDto book);
+  Future<void> addBookToReadingList(
+    String userId,
+    String readingListId,
+    BookDto book,
+  );
 }

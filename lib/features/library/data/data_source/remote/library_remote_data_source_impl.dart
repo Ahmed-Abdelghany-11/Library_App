@@ -19,12 +19,16 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
 
   @override
   Future<void> deleteReadingList(String userId, String readingListId) async {
-    await firestore
+    final querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .collection('readingLists')
-        .doc(readingListId)
-        .delete();
+        .where('id', isEqualTo: readingListId)
+        .get();
+
+    for (var doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
   }
 
   @override

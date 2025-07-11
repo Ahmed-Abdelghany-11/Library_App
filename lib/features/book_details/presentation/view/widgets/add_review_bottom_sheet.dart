@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/assets/app_colors.dart';
 import '../../../../../core/base/base_state.dart';
@@ -8,38 +9,39 @@ import '../../view_model/book_details_state.dart';
 
 class AddReviewBottomSheet extends StatelessWidget {
   final String bookId;
-  final BookDetailsCubit viewModel;
 
-  const AddReviewBottomSheet({
-    super.key,
-    required this.bookId,
-    required this.viewModel,
-  });
+  const AddReviewBottomSheet({super.key, required this.bookId});
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.read<BookDetailsCubit>();
     return Padding(
       padding: EdgeInsets.all(20),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             'Leave a Review',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(5, (i) {
-              return IconButton(
-                icon: Icon(
-                  i < viewModel.selectedRating ? Icons.star : Icons.star_border,
-                  color: AppColors.yellow,
-                ),
-                onPressed: () {
-                  viewModel.updateSelectedRating(i + 1);
-                },
+          BlocBuilder<BookDetailsCubit, BookDetailsState>(
+            builder: (context, state) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(5, (i) {
+                  return IconButton(
+                    icon: Icon(
+                      i < state.selectedRating ? Icons.star : Icons.star_border,
+                      color: AppColors.yellow,
+                    ),
+                    onPressed: () {
+                      viewModel.updateSelectedRating(i + 1);
+                    },
+                  );
+                }),
               );
-            }),
+            },
           ),
           TextField(
             controller: viewModel.reviewTextController,

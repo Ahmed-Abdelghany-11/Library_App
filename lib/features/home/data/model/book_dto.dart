@@ -40,6 +40,20 @@ class BookDto {
     );
   }
 
+  Map<String, dynamic> toFirestore() {
+    return {
+      'title': title,
+      'author': author,
+      'description': description,
+      'category': category ?? [],
+      'coverUrl': coverUrl,
+      'averageRating': averageRating ?? 0.0,
+      'totalRatings': totalRatings ?? 0,
+      'language': language,
+      'pageCount': pageCount ?? '',
+    };
+  }
+
   BookEntity toEntity() {
     return BookEntity(
       id: id,
@@ -52,6 +66,21 @@ class BookDto {
       totalRatings: totalRatings,
       language: language,
       pageCount: pageCount,
+    );
+  }
+
+  factory BookDto.fromEntity(BookEntity entity) {
+    return BookDto(
+      id: entity.id,
+      title: entity.title,
+      author: entity.author,
+      description: entity.description,
+      category: entity.category,
+      coverUrl: entity.coverUrl,
+      averageRating: entity.averageRating,
+      totalRatings: entity.totalRatings,
+      language: entity.language,
+      pageCount: entity.pageCount,
     );
   }
 }

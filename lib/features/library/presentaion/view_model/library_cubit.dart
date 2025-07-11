@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
@@ -94,7 +96,11 @@ class LibraryCubit extends Cubit<LibraryState> {
       return;
     }
     final result = await _addReadingListUseCase(
-      ReadingListEntity(name: readingListNameController.text, numberOfBooks: 0),
+      ReadingListEntity(
+        name: readingListNameController.text,
+        numberOfBooks: 0,
+        id: _generateRandomId(),
+      ),
     );
     switch (result) {
       case SuccessResult<void>():
@@ -148,5 +154,14 @@ class LibraryCubit extends Cubit<LibraryState> {
           ),
         );
     }
+  }
+
+  String _generateRandomId([int length = 20]) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    final rand = Random.secure();
+    return List.generate(
+      length,
+      (index) => chars[rand.nextInt(chars.length)],
+    ).join();
   }
 }

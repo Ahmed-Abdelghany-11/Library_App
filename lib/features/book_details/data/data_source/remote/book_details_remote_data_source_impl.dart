@@ -55,8 +55,24 @@ class BookDetailsRemoteDataSourceImpl implements BookDetailsRemoteDataSource {
   }
 
   @override
-  Future<void> addBookToReadingList(String readingListId, BookDto book) {
-    // TODO: implement addBookToReadingList
-    throw UnimplementedError();
+  Future<void> addBookToReadingList(
+    String userId,
+    String readingListId,
+    BookDto book,
+  ) async {
+    final bookData = book.toFirestore();
+    final readingListRef = await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('readingLists')
+        .where('id', isEqualTo: readingListId)
+        .get();
+    await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('readingLists')
+        .doc(readingListRef.docs.first.id)
+        .collection('books')
+        .add(bookData);
   }
 }

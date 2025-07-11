@@ -46,6 +46,8 @@ import '../../../features/book_details/domain/repo/book_details_repo.dart'
     as _i148;
 import '../../../features/book_details/domain/usecase/add_book_review_use_case.dart'
     as _i263;
+import '../../../features/book_details/domain/usecase/add_book_to_reading_list_use_case.dart'
+    as _i980;
 import '../../../features/book_details/domain/usecase/get_book_reviews_use_case.dart'
     as _i92;
 import '../../../features/book_details/domain/usecase/get_use_data_use_case.dart'
@@ -64,6 +66,27 @@ import '../../../features/home/domain/usecase/get_book_by_id_use_case.dart'
     as _i443;
 import '../../../features/home/presentation/view_model/home_cubit.dart'
     as _i595;
+import '../../../features/library/data/data_source/contract/library_remote_data_source.dart'
+    as _i46;
+import '../../../features/library/data/data_source/remote/library_remote_data_source_impl.dart'
+    as _i993;
+import '../../../features/library/data/repo_impl/library_repo_impl.dart'
+    as _i1045;
+import '../../../features/library/domain/repo/library_repo.dart' as _i101;
+import '../../../features/library/domain/usecase/add_reading_list_use_case.dart'
+    as _i949;
+import '../../../features/library/domain/usecase/delete_reading_list_use_case.dart'
+    as _i1066;
+import '../../../features/library/domain/usecase/get_books_in_reading_list_use_case.dart'
+    as _i263;
+import '../../../features/library/domain/usecase/get_reading_list_by_name_use_case.dart'
+    as _i809;
+import '../../../features/library/domain/usecase/get_reading_lists_use_case.dart'
+    as _i760;
+import '../../../features/library/domain/usecase/remove_book_from_reading_list_use_case.dart'
+    as _i889;
+import '../../../features/library/presentaion/view_model/library_cubit.dart'
+    as _i496;
 import '../../../features/main_layout/presentation/view_model/main_layout_cubit.dart'
     as _i233;
 import '../../../features/search/data/data_source/contract/search_remote_data_source.dart'
@@ -108,6 +131,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i649.BlocObserverService>(
       () => _i649.BlocObserverService(gh<_i974.Logger>()),
     );
+    gh.factory<_i46.LibraryRemoteDataSource>(
+      () => _i993.LibraryRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
     gh.factory<_i1015.AuthLocalDataSource>(
       () => _i241.AuthLocalDataSourceImpl(gh<_i558.FlutterSecureStorage>()),
     );
@@ -117,6 +143,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1043.HomeRemoteDataSource>(
       () => _i859.HomeRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
+    gh.factory<_i101.LibraryRepo>(
+      () => _i1045.LibraryRepoImpl(
+        gh<_i943.ApiManager>(),
+        gh<_i46.LibraryRemoteDataSource>(),
+        gh<_i1015.AuthLocalDataSource>(),
+      ),
     );
     gh.factory<_i305.AuthRemoteDataSource>(
       () => _i212.AuthRemoteDataSourceImpl(
@@ -143,6 +176,24 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i943.ApiManager>(),
       ),
     );
+    gh.factory<_i949.AddReadingListUseCase>(
+      () => _i949.AddReadingListUseCase(gh<_i101.LibraryRepo>()),
+    );
+    gh.factory<_i1066.DeleteReadingListUseCase>(
+      () => _i1066.DeleteReadingListUseCase(gh<_i101.LibraryRepo>()),
+    );
+    gh.factory<_i263.GetBooksInReadingListUseCase>(
+      () => _i263.GetBooksInReadingListUseCase(gh<_i101.LibraryRepo>()),
+    );
+    gh.factory<_i760.GetReadingListsUseCase>(
+      () => _i760.GetReadingListsUseCase(gh<_i101.LibraryRepo>()),
+    );
+    gh.factory<_i809.GetReadingListByNameUseCase>(
+      () => _i809.GetReadingListByNameUseCase(gh<_i101.LibraryRepo>()),
+    );
+    gh.factory<_i889.RemoveBookFromReadingListUseCase>(
+      () => _i889.RemoveBookFromReadingListUseCase(gh<_i101.LibraryRepo>()),
+    );
     gh.factory<_i148.BookDetailsRepo>(
       () => _i1072.BookDetailsRepoImpl(
         gh<_i830.BookDetailsRemoteDataSource>(),
@@ -154,6 +205,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1058.SearchRepoImpl(
         gh<_i424.SearchRemoteDataSource>(),
         gh<_i943.ApiManager>(),
+      ),
+    );
+    gh.factory<_i496.LibraryCubit>(
+      () => _i496.LibraryCubit(
+        gh<_i760.GetReadingListsUseCase>(),
+        gh<_i949.AddReadingListUseCase>(),
+        gh<_i1066.DeleteReadingListUseCase>(),
+        gh<_i809.GetReadingListByNameUseCase>(),
       ),
     );
     gh.factory<_i605.SearchUseCase>(
@@ -195,11 +254,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i485.GetUseDataUseCase>(
       () => _i485.GetUseDataUseCase(gh<_i148.BookDetailsRepo>()),
     );
+    gh.factory<_i980.AddBookToReadingListUseCase>(
+      () => _i980.AddBookToReadingListUseCase(gh<_i148.BookDetailsRepo>()),
+    );
     gh.factory<_i977.BookDetailsCubit>(
       () => _i977.BookDetailsCubit(
         gh<_i263.AddBookReviewUseCase>(),
         gh<_i92.GetBookReviewsUseCase>(),
         gh<_i485.GetUseDataUseCase>(),
+        gh<_i760.GetReadingListsUseCase>(),
+        gh<_i980.AddBookToReadingListUseCase>(),
       ),
     );
     gh.factory<_i595.HomeCubit>(

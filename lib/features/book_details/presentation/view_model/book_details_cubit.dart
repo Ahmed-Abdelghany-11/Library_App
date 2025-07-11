@@ -4,7 +4,11 @@ import 'package:injectable/injectable.dart';
 import 'package:library_app/core/base/base_state.dart';
 import 'package:library_app/core/utils/networking/api_result.dart';
 import 'package:library_app/features/book_details/domain/entity/review_entity.dart';
+import 'package:library_app/features/book_details/domain/usecase/add_book_to_reading_list_use_case.dart';
+import 'package:library_app/features/home/domain/entity/book_entity.dart';
+import 'package:library_app/features/library/domain/usecase/get_reading_lists_use_case.dart';
 
+import '../../../library/domain/entity/reading_list_entity.dart';
 import '../../domain/entity/add_review_entity.dart';
 import '../../domain/entity/user_entity.dart';
 import '../../domain/usecase/add_book_review_use_case.dart';
@@ -17,11 +21,15 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
   final AddBookReviewUseCase _addBookReviewUseCase;
   final GetBookReviewsUseCase _getBookReviewsUseCase;
   final GetUseDataUseCase _getUseDataUseCase;
+  final GetReadingListsUseCase _getReadingListsUseCase;
+  final AddBookToReadingListUseCase _addBookToReadingListUseCase;
 
   BookDetailsCubit(
     this._addBookReviewUseCase,
     this._getBookReviewsUseCase,
     this._getUseDataUseCase,
+    this._getReadingListsUseCase,
+    this._addBookToReadingListUseCase,
   ) : super(
         BookDetailsState(
           addReviewState: BaseInitialState(),
@@ -32,6 +40,7 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
 
   final TextEditingController reviewTextController = TextEditingController();
   final TextEditingController ratingController = TextEditingController();
+  final TextEditingController readingListController = TextEditingController();
   int selectedRating = 0;
 
   Future<void> _getBookReviews(String bookId) async {
@@ -107,7 +116,51 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
   void updateSelectedRating(int rating) {
     selectedRating = rating;
     ratingController.text = rating.toString();
-    emit(state.copyWith());
+    emit(state.copyWith(selectedRating: rating));
+  }
+
+  Future<void> _getReadingLists() async {
+    emit(state.copyWith(getUserReadingListsState: BaseLoadingState()));
+    final result = await _getReadingListsUseCase.call();
+    switch (result) {
+      case SuccessResult<List<ReadingListEntity>>():
+        emit(
+          state.copyWith(
+            getUserReadingListsState: BaseSuccessState(data: result.data),
+          ),
+        );
+      case FailureResult<List<ReadingListEntity>>():
+        emit(
+          state.copyWith(
+            getUserReadingListsState: BaseErrorState(
+              errorMessage: result.exception.toString(),
+            ),
+          ),
+        );
+    }
+  }
+
+  Future<void> _addBookToReadingList(
+    String readingListId,
+    BookEntity book,
+  ) async {
+    emit(state.copyWith(addBookToReadingListState: BaseLoadingState()));
+    final result = await _addBookToReadingListUseCase.call(
+      readingListController.text,
+      book,
+    );
+    switch (result) {
+      case SuccessResult<void>():
+        emit(state.copyWith(addBookToReadingListState: BaseSuccessState()));
+      case FailureResult<void>():
+        emit(
+          state.copyWith(
+            addBookToReadingListState: BaseErrorState(
+              errorMessage: result.exception.toString(),
+            ),
+          ),
+        );
+    }
   }
 
   void doIntent(BookDetailsAction action) {
@@ -118,6 +171,10 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
         _addBookReview(action.bookId, action.userId, action.username);
       case GetUserData():
         _getUserData();
+      case AddBookToReadingList():
+        _addBookToReadingList(action.readingListId, action.book);
+      case GetUserReadingLists():
+        _getReadingLists();
     }
   }
 
@@ -125,6 +182,7 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
   Future<void> close() {
     reviewTextController.dispose();
     ratingController.dispose();
+    readingListController.dispose();
     return super.close();
   }
 }
