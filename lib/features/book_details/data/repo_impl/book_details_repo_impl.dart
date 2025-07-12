@@ -4,6 +4,8 @@ import 'package:library_app/features/auth/data/data_source/contract/auth_local_d
 import 'package:library_app/features/book_details/domain/entity/user_entity.dart';
 
 import '../../../../core/utils/networking/api_result.dart';
+import '../../../home/data/model/book_dto.dart';
+import '../../../home/domain/entity/book_entity.dart';
 import '../../domain/entity/add_review_entity.dart';
 import '../../domain/entity/review_entity.dart';
 import '../../domain/repo/book_details_repo.dart';
@@ -43,6 +45,22 @@ class BookDetailsRepoImpl implements BookDetailsRepo {
     return await _apiManager.execute<UserEntity>(() async {
       final userDto = await _bookDetailsRemoteDataSource.getUserData(userId!);
       return userDto.toEntity();
+    });
+  }
+
+  @override
+  Future<Result<void>> addBookToReadingList(
+    String readingListId,
+    BookEntity book,
+  ) async {
+    final userId = await _authLocalDataSource.getUserId();
+    final bookDto = BookDto.fromEntity(book);
+    return await _apiManager.execute<void>(() async {
+      return await _bookDetailsRemoteDataSource.addBookToReadingList(
+        userId!,
+        readingListId,
+        bookDto,
+      );
     });
   }
 }

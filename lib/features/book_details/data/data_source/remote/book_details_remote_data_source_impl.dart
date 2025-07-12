@@ -4,6 +4,7 @@ import 'package:library_app/features/book_details/data/data_source/contract/book
 import 'package:library_app/features/book_details/data/model/add_review_request_dto.dart';
 import 'package:library_app/features/book_details/data/model/review_dto.dart';
 import 'package:library_app/features/book_details/data/model/user_dto.dart';
+import 'package:library_app/features/home/data/model/book_dto.dart';
 
 @Injectable(as: BookDetailsRemoteDataSource)
 class BookDetailsRemoteDataSourceImpl implements BookDetailsRemoteDataSource {
@@ -51,5 +52,34 @@ class BookDetailsRemoteDataSourceImpl implements BookDetailsRemoteDataSource {
   Future<UserDto> getUserData(String userId) async {
     final snapshot = await firestore.collection('users').doc(userId).get();
     return UserDto.fromFirestore(snapshot.data()!, userId);
+  }
+
+  @override
+  Future<void> addBookToReadingList(
+    String userId,
+    String readingListId,
+    BookDto book,
+  ) async {
+    final userRef = firestore.collection('users').doc(userId);
+    final readingListsRef = userRef.collection('readingLists');
+
+    final readingListQuery = await readingListsRef
+        .where('id', isEqualTo: readingListId)
+        .get();
+
+    final readingListDoc = readingListQuery.docs.first;
+    final readingListDocRef = readingListsRef.doc(readingListDoc.id);
+
+    await readingListDocRef.collection('books').add(book.toFirestore());
+
+    await firestore.runTransaction((transaction) async {
+      final snapshot = await transaction.get(readingListDocRef);
+      final data = snapshot.data();
+      final currentCount = (data?['numberOfBooks'] ?? 0) as int;
+
+      transaction.update(readingListDocRef, {
+        'numberOfBooks': currentCount + 1,
+      });
+    });
   }
 }

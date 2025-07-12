@@ -4,6 +4,7 @@ import 'package:library_app/core/utils/di/di.dart';
 import 'package:library_app/features/home/presentation/view/widgets/home_body.dart';
 import 'package:library_app/features/home/presentation/view/widgets/home_header.dart';
 import '../../../../core/base/base_state.dart';
+import '../../../library/domain/entity/reading_list_entity.dart';
 import '../../domain/entity/book_entity.dart';
 import '../view_model/home_cubit.dart';
 import '../view_model/home_state.dart';
@@ -16,7 +17,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => viewModel..doIntent(GetAllBooks()),
+      create: (_) {
+        viewModel.doIntent(GetAllBooks());
+        viewModel.doIntent(GetReadingList());
+        return viewModel;
+      },
       child: Scaffold(
         body: SafeArea(
           child: Column(
@@ -25,19 +30,31 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
-                    final baseState = state.homeState;
+                    final booksState = state.homeState;
+                    final readingListsState = state.getReadingListState;
 
-                    if (baseState is BaseLoadingState) {
+                    if (booksState is BaseLoadingState ||
+                        readingListsState is BaseLoadingState) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    if (baseState is BaseErrorState) {
-                      return Center(child: Text(baseState.errorMessage));
+                    if (booksState is BaseErrorState) {
+                      return Center(child: Text(booksState.errorMessage));
                     }
 
-                    if (baseState is BaseSuccessState<List<BookEntity>>) {
-                      final books = baseState.data;
-                      return HomeBody(books: books);
+                    if (readingListsState is BaseErrorState) {
+                      return Center(
+                        child: Text(readingListsState.errorMessage),
+                      );
+                    }
+
+                    if (booksState is BaseSuccessState<List<BookEntity>> &&
+                        readingListsState
+                            is BaseSuccessState<List<ReadingListEntity>>) {
+                      return HomeBody(
+                        books: booksState.data,
+                        readingLists: readingListsState.data,
+                      );
                     }
 
                     return const SizedBox.shrink();
