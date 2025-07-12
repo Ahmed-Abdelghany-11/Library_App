@@ -1,4 +1,5 @@
 import 'package:library_app/core/utils/networking/api_result.dart';
+import 'package:library_app/features/book_details/domain/entity/user_entity.dart';
 
 import '../entity/signin_request_entity.dart';
 import '../entity/signup_request_entity.dart';
@@ -8,4 +9,5 @@ abstract class AuthRepo {
   Future<Result<void>> signUp(SignupRequestEntity request);
   Future<Result<void>> signIn(SigninRequestEntity request);
   Future<Result<void>> signOut();
+  Future<Result<UserEntity>> getCurrentUserData();
 }
