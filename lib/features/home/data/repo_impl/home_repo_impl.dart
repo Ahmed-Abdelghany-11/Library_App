@@ -26,4 +26,28 @@ class HomeRepoImpl implements HomeRepo {
       return book.toEntity();
     });
   }
+
+  @override
+  Future<Result<List<BookEntity>>> getBooksByCategory(String category) async {
+    return await _apiManager.execute<List<BookEntity>>(() async {
+      final books = await _homeRemoteDataSource.getBooksByCategory(category);
+      return books.map((book) => book.toEntity()).toList();
+    });
+  }
+
+  @override
+  Future<Result<List<BookEntity>>> getBooksByRating(double rating) async {
+    return await _apiManager.execute<List<BookEntity>>(() async {
+      final books = await _homeRemoteDataSource.getBooksByRating(rating);
+      return books.map((book) => book.toEntity()).toList();
+    });
+  }
+
+  @override
+  Future<Result<List<BookEntity>>> getSomeBooks() async {
+    return await _apiManager.execute<List<BookEntity>>(() async {
+      final books = await _homeRemoteDataSource.getSomeBooks();
+      return books.map((book) => book.toEntity()).toList();
+    });
+  }
 }

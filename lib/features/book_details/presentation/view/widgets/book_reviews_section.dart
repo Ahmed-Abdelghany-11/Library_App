@@ -56,7 +56,7 @@ class BookReviewsSection extends StatelessWidget {
                   height: 320,
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: reviews!.length,
+                    itemCount: reviews.length,
                     itemBuilder: (_, index) =>
                         ReviewItem(review: reviews[index]),
                   ),

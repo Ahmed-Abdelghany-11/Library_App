@@ -16,7 +16,7 @@ class BookInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pageInfo =
-        '${categories}${categories.isNotEmpty && book.pageCount != null ? ' • ' : ''}${book.pageCount ?? ''} pages';
+        '$categories${categories.isNotEmpty && book.pageCount != null ? ' • ' : ''}${book.pageCount ?? ''} pages';
 
     return Column(
       children: [

@@ -11,27 +11,39 @@ class MyListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: readingLists.length,
-      separatorBuilder: (_, __) => const Divider(),
-      itemBuilder: (context, index) {
-        final list = readingLists[index];
-        return GestureDetector(
-          child: MyListItem(
-            title: list.name ?? 'Untitled List',
-            subtitle: '${list.numberOfBooks ?? 0} books',
+    if (readingLists.isEmpty) {
+      return SizedBox(
+        height: 100,
+        child: Center(
+          child: Text(
+            'No Lists Available',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           ),
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              RouteName.libraryBookScreen,
-              arguments: list,
-            );
-          },
-        );
-      },
-    );
+        ),
+      );
+    } else {
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: readingLists.length,
+        separatorBuilder: (_, __) => const Divider(),
+        itemBuilder: (context, index) {
+          final list = readingLists[index];
+          return GestureDetector(
+            child: MyListItem(
+              title: list.name ?? 'Untitled List',
+              subtitle: '${list.numberOfBooks ?? 0} books',
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                RouteName.libraryBookScreen,
+                arguments: list,
+              );
+            },
+          );
+        },
+      );
+    }
   }
 }

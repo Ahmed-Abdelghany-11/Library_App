@@ -22,4 +22,37 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     final doc = await firestore.collection('books').doc(id).get();
     return BookDto.fromFirestore(doc.data()!, doc.id);
   }
+
+  @override
+  Future<List<BookDto>> getBooksByCategory(String category) async {
+    final data = await firestore
+        .collection('books')
+        .where('category', arrayContains: category)
+        .get();
+
+    return data.docs.map((doc) {
+      return BookDto.fromFirestore(doc.data(), doc.id);
+    }).toList();
+  }
+
+  @override
+  Future<List<BookDto>> getBooksByRating(double rating) async {
+    final data = await firestore
+        .collection('books')
+        .where('averageRating', isGreaterThanOrEqualTo: rating)
+        .get();
+
+    return data.docs.map((doc) {
+      return BookDto.fromFirestore(doc.data(), doc.id);
+    }).toList();
+  }
+
+  @override
+  Future<List<BookDto>> getSomeBooks() async {
+    final data = await firestore.collection('books').limit(5).get();
+
+    return data.docs.map((doc) {
+      return BookDto.fromFirestore(doc.data(), doc.id);
+    }).toList();
+  }
 }

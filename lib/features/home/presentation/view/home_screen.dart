@@ -6,8 +6,8 @@ import 'package:library_app/features/home/presentation/view/widgets/home_header.
 import '../../../../core/base/base_state.dart';
 import '../../../library/domain/entity/reading_list_entity.dart';
 import '../../domain/entity/book_entity.dart';
-import '../view_model/home_cubit.dart';
-import '../view_model/home_state.dart';
+import '../view_model/home/home_cubit.dart';
+import '../view_model/home/home_state.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        viewModel.doIntent(GetAllBooks());
+        viewModel.doIntent(GetSomeBooks());
         viewModel.doIntent(GetReadingList());
         return viewModel;
       },

@@ -5,4 +5,5 @@ class RouteName {
   static const String mainLayout = '/mainLayout';
   static const String bookDetailsScreen = '/bookDetailsScreen';
   static const String libraryBookScreen = '/libraryBookScreen';
+  static const String allBooksScreen = '/allBooksScreen';
 }
