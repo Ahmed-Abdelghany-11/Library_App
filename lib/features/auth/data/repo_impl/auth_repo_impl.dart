@@ -6,6 +6,7 @@ import 'package:library_app/features/auth/data/data_source/contract/auth_local_d
 import 'package:library_app/features/auth/data/data_source/contract/auth_remote_data_source.dart';
 import 'package:library_app/features/auth/domain/entity/signin_request_entity.dart';
 import 'package:library_app/features/auth/domain/repo/auth_repo.dart';
+import 'package:library_app/features/book_details/domain/entity/user_entity.dart';
 
 import '../../domain/entity/signup_request_entity.dart';
 import '../model/signin_request_dto.dart';
@@ -55,6 +56,15 @@ class AuthRepoImpl implements AuthRepo {
     return await _apiManager.execute<void>(() async {
       await _authRemoteDataSource.signOut();
       await _authLocalDataSource.clearUserId();
+    });
+  }
+
+  @override
+  Future<Result<UserEntity>> getCurrentUserData() async {
+    return await _apiManager.execute<UserEntity>(() async {
+      final userId = await _authLocalDataSource.getUserId();
+      final user = await _authRemoteDataSource.getCurrentUserData(userId!);
+      return user.toEntity();
     });
   }
 }

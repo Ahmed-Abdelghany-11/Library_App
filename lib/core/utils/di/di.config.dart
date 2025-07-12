@@ -27,6 +27,8 @@ import '../../../features/auth/data/data_source/remote/auth_remote_data_source_i
     as _i212;
 import '../../../features/auth/data/repo_impl/auth_repo_impl.dart' as _i822;
 import '../../../features/auth/domain/repo/auth_repo.dart' as _i913;
+import '../../../features/auth/domain/usecase/get_current_user_data_use_case.dart'
+    as _i721;
 import '../../../features/auth/domain/usecase/get_user_state_use_case.dart'
     as _i330;
 import '../../../features/auth/domain/usecase/signin_use_case.dart' as _i612;
@@ -99,6 +101,8 @@ import '../../../features/library/presentaion/view_model/library_books/library_b
     as _i635;
 import '../../../features/main_layout/presentation/view_model/main_layout_cubit.dart'
     as _i233;
+import '../../../features/profile/presentation/view_model/profile_cubit.dart'
+    as _i782;
 import '../../../features/search/data/data_source/contract/search_remote_data_source.dart'
     as _i424;
 import '../../../features/search/data/data_source/remote/search_remote_data_source_impl.dart'
@@ -246,6 +250,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i955.SignupUseCase>(
       () => _i955.SignupUseCase(gh<_i913.AuthRepo>()),
     );
+    gh.factory<_i721.GetCurrentUserDataUseCase>(
+      () => _i721.GetCurrentUserDataUseCase(gh<_i913.AuthRepo>()),
+    );
     gh.factory<_i122.SignupCubit>(
       () => _i122.SignupCubit(gh<_i955.SignupUseCase>(), gh<_i437.Validator>()),
     );
@@ -287,6 +294,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i413.GetAllBooksUseCase>(),
         gh<_i247.GetBooksByCategoryUseCase>(),
         gh<_i304.GetBooksByRatingUseCase>(),
+      ),
+    );
+    gh.factory<_i782.ProfileCubit>(
+      () => _i782.ProfileCubit(
+        gh<_i721.GetCurrentUserDataUseCase>(),
+        gh<_i716.SignoutUseCase>(),
       ),
     );
     gh.factory<_i977.BookDetailsCubit>(
