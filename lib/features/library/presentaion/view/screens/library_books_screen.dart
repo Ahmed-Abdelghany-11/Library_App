@@ -100,16 +100,13 @@ class LibraryBooksScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
-                            // <-- use confirmDismiss instead of onDismissed
                             confirmDismiss: (_) async {
-                              // fire your delete intent
                               context.read<LibraryBooksCubit>().doIntent(
                                 DeleteBookFromReadingList(
                                   readingListId,
                                   book.title ?? '',
                                 ),
                               );
-                              // return false to keep the item in the tree until state rebuilds
                               return false;
                             },
                             child: GestureDetector(

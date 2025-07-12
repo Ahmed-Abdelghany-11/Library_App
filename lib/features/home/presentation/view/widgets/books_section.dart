@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/core/utils/routes/route_name.dart';
-import 'package:library_app/features/home/presentation/view_model/home_cubit.dart';
 
 import '../../../domain/entity/book_entity.dart';
-import '../../view_model/home_state.dart';
+import '../../view_model/home/home_cubit.dart';
+import '../../view_model/home/home_state.dart';
 import 'book_item.dart';
 
 class BooksSection extends StatelessWidget {
@@ -28,7 +28,7 @@ class BooksSection extends StatelessWidget {
               context,
               RouteName.bookDetailsScreen,
               arguments: books[index],
-            ).then((_) => viewModel.doIntent(GetAllBooks()));
+            ).then((_) => viewModel.doIntent(GetSomeBooks()));
           },
         ),
       ),

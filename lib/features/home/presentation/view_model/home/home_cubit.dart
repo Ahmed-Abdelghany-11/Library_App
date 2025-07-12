@@ -3,18 +3,18 @@ import 'package:injectable/injectable.dart';
 import 'package:library_app/core/base/base_state.dart';
 import 'package:library_app/core/utils/networking/api_result.dart';
 import 'package:library_app/features/home/domain/entity/book_entity.dart';
-import 'package:library_app/features/home/domain/usecase/get_all_books_use_case.dart';
+import 'package:library_app/features/home/domain/usecase/get_some_books_use_case.dart';
 import 'package:library_app/features/library/domain/usecase/get_reading_lists_use_case.dart';
 
-import '../../../library/domain/entity/reading_list_entity.dart';
+import '../../../../library/domain/entity/reading_list_entity.dart';
 import 'home_state.dart';
 
 @injectable
 class HomeCubit extends Cubit<HomeState> {
-  final GetAllBooksUseCase _getAllBooksUseCase;
+  final GetSomeBooksUseCase _getSomeBooksUseCase;
   final GetReadingListsUseCase _getReadingListsUseCase;
 
-  HomeCubit(this._getAllBooksUseCase, this._getReadingListsUseCase)
+  HomeCubit(this._getSomeBooksUseCase, this._getReadingListsUseCase)
     : super(
         HomeState(
           homeState: BaseInitialState(),
@@ -22,9 +22,9 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
 
-  Future<void> _getAllBooks() async {
+  Future<void> _getSomeBooks() async {
     emit(state.copyWith(homeState: BaseLoadingState()));
-    final result = await _getAllBooksUseCase();
+    final result = await _getSomeBooksUseCase();
     switch (result) {
       case SuccessResult<List<BookEntity>>():
         final books = result.data;
@@ -63,8 +63,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   void doIntent(HomeAction action) {
     switch (action) {
-      case GetAllBooks():
-        _getAllBooks();
+      case GetSomeBooks():
+        _getSomeBooks();
       case GetReadingList():
         _getReadingLists();
     }

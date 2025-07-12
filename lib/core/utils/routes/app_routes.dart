@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:library_app/core/utils/routes/route_name.dart';
+import 'package:library_app/features/home/presentation/view/all_books_screen.dart';
 import 'package:library_app/features/main_layout/presentation/view/main_layout.dart';
 
 import '../../../features/auth/presentation/view/screens/login_screen.dart';
@@ -40,6 +40,12 @@ class AppRoutes {
       case RouteName.libraryBookScreen:
         return _handelMaterialPageRoute(
           widget: LibraryBooksScreen(),
+          settings: settings,
+        );
+
+      case RouteName.allBooksScreen:
+        return _handelMaterialPageRoute(
+          widget: AllBooksScreen(),
           settings: settings,
         );
       default:

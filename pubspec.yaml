@@ -67,6 +67,8 @@ dependencies:
   flutter_secure_storage: ^9.2.4
 
 
+  dio: any
+  bloc: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

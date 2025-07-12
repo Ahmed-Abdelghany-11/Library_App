@@ -64,8 +64,16 @@ import '../../../features/home/domain/usecase/get_all_books_use_case.dart'
     as _i413;
 import '../../../features/home/domain/usecase/get_book_by_id_use_case.dart'
     as _i443;
-import '../../../features/home/presentation/view_model/home_cubit.dart'
-    as _i595;
+import '../../../features/home/domain/usecase/get_books_by_category_use_case.dart'
+    as _i247;
+import '../../../features/home/domain/usecase/get_books_by_rating_use_case.dart'
+    as _i304;
+import '../../../features/home/domain/usecase/get_some_books_use_case.dart'
+    as _i71;
+import '../../../features/home/presentation/view_model/all_books/all_books_cubit.dart'
+    as _i904;
+import '../../../features/home/presentation/view_model/home/home_cubit.dart'
+    as _i598;
 import '../../../features/library/data/data_source/contract/library_remote_data_source.dart'
     as _i46;
 import '../../../features/library/data/data_source/remote/library_remote_data_source_impl.dart'
@@ -250,6 +258,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i443.GetBookByIdUseCase>(
       () => _i443.GetBookByIdUseCase(gh<_i242.HomeRepo>()),
     );
+    gh.factory<_i247.GetBooksByCategoryUseCase>(
+      () => _i247.GetBooksByCategoryUseCase(gh<_i242.HomeRepo>()),
+    );
+    gh.factory<_i304.GetBooksByRatingUseCase>(
+      () => _i304.GetBooksByRatingUseCase(gh<_i242.HomeRepo>()),
+    );
+    gh.factory<_i71.GetSomeBooksUseCase>(
+      () => _i71.GetSomeBooksUseCase(gh<_i242.HomeRepo>()),
+    );
     gh.factory<_i703.SigninCubit>(
       () => _i703.SigninCubit(gh<_i612.SigninUseCase>(), gh<_i437.Validator>()),
     );
@@ -265,10 +282,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i980.AddBookToReadingListUseCase>(
       () => _i980.AddBookToReadingListUseCase(gh<_i148.BookDetailsRepo>()),
     );
-    gh.factory<_i595.HomeCubit>(
-      () => _i595.HomeCubit(
+    gh.factory<_i904.AllBooksCubit>(
+      () => _i904.AllBooksCubit(
         gh<_i413.GetAllBooksUseCase>(),
-        gh<_i760.GetReadingListsUseCase>(),
+        gh<_i247.GetBooksByCategoryUseCase>(),
+        gh<_i304.GetBooksByRatingUseCase>(),
       ),
     );
     gh.factory<_i977.BookDetailsCubit>(
@@ -278,6 +296,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i485.GetUseDataUseCase>(),
         gh<_i760.GetReadingListsUseCase>(),
         gh<_i980.AddBookToReadingListUseCase>(),
+      ),
+    );
+    gh.factory<_i598.HomeCubit>(
+      () => _i598.HomeCubit(
+        gh<_i71.GetSomeBooksUseCase>(),
+        gh<_i760.GetReadingListsUseCase>(),
       ),
     );
     return this;

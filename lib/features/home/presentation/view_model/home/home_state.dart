@@ -20,6 +20,6 @@ class HomeState extends Equatable {
 
 sealed class HomeAction {}
 
-class GetAllBooks extends HomeAction {}
+class GetSomeBooks extends HomeAction {}
 
 class GetReadingList extends HomeAction {}
