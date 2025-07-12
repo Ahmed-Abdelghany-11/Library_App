@@ -265,6 +265,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i980.AddBookToReadingListUseCase>(
       () => _i980.AddBookToReadingListUseCase(gh<_i148.BookDetailsRepo>()),
     );
+    gh.factory<_i595.HomeCubit>(
+      () => _i595.HomeCubit(
+        gh<_i413.GetAllBooksUseCase>(),
+        gh<_i760.GetReadingListsUseCase>(),
+      ),
+    );
     gh.factory<_i977.BookDetailsCubit>(
       () => _i977.BookDetailsCubit(
         gh<_i263.AddBookReviewUseCase>(),
@@ -273,9 +279,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i760.GetReadingListsUseCase>(),
         gh<_i980.AddBookToReadingListUseCase>(),
       ),
-    );
-    gh.factory<_i595.HomeCubit>(
-      () => _i595.HomeCubit(gh<_i413.GetAllBooksUseCase>()),
     );
     return this;
   }

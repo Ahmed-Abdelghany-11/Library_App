@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/assets/app_colors.dart';
+import '../../../../library/domain/entity/reading_list_entity.dart';
 import '../../../domain/entity/book_entity.dart';
 import 'books_section.dart';
 import 'my_list_section.dart';
 
 class HomeBody extends StatelessWidget {
   final List<BookEntity>? books;
-  const HomeBody({super.key, this.books});
+  final List<ReadingListEntity>? readingLists;
+
+  const HomeBody({super.key, this.books, this.readingLists});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class HomeBody extends StatelessWidget {
               ),
             ),
           ),
-          MyListSection(bookCount: books?.length ?? 0),
+          MyListSection(readingLists: readingLists ?? []),
           const SizedBox(height: 80),
         ],
       ),
