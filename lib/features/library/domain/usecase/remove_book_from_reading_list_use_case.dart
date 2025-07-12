@@ -8,7 +8,7 @@ class RemoveBookFromReadingListUseCase {
 
   RemoveBookFromReadingListUseCase(this._libraryRepo);
 
-  Future<Result<void>> call(String readingListId, String bookId) async {
-    return await _libraryRepo.removeBookFromReadingList(readingListId, bookId);
+  Future<Result<void>> call(String readingListId, String title) async {
+    return await _libraryRepo.removeBookFromReadingList(readingListId, title);
   }
 }

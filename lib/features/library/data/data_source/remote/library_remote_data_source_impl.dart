@@ -36,14 +36,20 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
     String userId,
     String readingListId,
   ) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('readingLists')
+        .where('id', isEqualTo: readingListId)
+        .get();
+
     final snapshot = await firestore
         .collection('users')
         .doc(userId)
         .collection('readingLists')
-        .doc(readingListId)
+        .doc(querySnapshot.docs.first.id)
         .collection('books')
         .get();
-
     return snapshot.docs.map((doc) {
       return BookDto.fromFirestore(doc.data(), doc.id);
     }).toList();
@@ -66,16 +72,35 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   Future<void> removeBookFromReadingList(
     String userId,
     String readingListId,
-    String bookId,
+    String title,
   ) async {
-    await firestore
+    final listQuery = await firestore
         .collection('users')
         .doc(userId)
         .collection('readingLists')
-        .doc(readingListId)
+        .where('id', isEqualTo: readingListId)
+        .get();
+
+    final listDocRef = listQuery.docs.first.reference;
+
+    final booksQuery = await listDocRef
         .collection('books')
-        .doc(bookId)
-        .delete();
+        .where('title', isEqualTo: title)
+        .limit(1)
+        .get();
+
+    final bookDocRef = booksQuery.docs.first.reference;
+
+    await firestore.runTransaction((tx) async {
+      tx.delete(bookDocRef);
+
+      final listSnapshot = await tx.get(listDocRef);
+      final currentCount = (listSnapshot.data()?['numberOfBooks'] as int?) ?? 0;
+
+      tx.update(listDocRef, {
+        'numberOfBooks': currentCount > 0 ? currentCount - 1 : 0,
+      });
+    });
   }
 
   @override

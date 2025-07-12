@@ -7,6 +7,7 @@ import '../../../features/auth/presentation/view/screens/login_screen.dart';
 import '../../../features/auth/presentation/view/screens/signup_screen.dart';
 import '../../../features/book_details/presentation/view/book_details_screen.dart';
 import '../../../features/home/presentation/view/home_screen.dart';
+import '../../../features/library/presentaion/view/screens/library_books_screen.dart';
 
 class AppRoutes {
   static Route? generateRoute(RouteSettings settings) {
@@ -36,10 +37,9 @@ class AppRoutes {
           widget: BookDetailsScreen(),
           settings: settings,
         );
+      case RouteName.libraryBookScreen:
         return _handelMaterialPageRoute(
-          widget: const Scaffold(
-            body: Center(child: Text('Book Details Screen')),
-          ),
+          widget: LibraryBooksScreen(),
           settings: settings,
         );
       default:

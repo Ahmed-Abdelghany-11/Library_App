@@ -8,7 +8,7 @@ abstract class LibraryRepo {
   Future<Result<List<BookEntity>>> getBooksInReadingList(String readingListId);
   Future<Result<void>> removeBookFromReadingList(
     String readingListId,
-    String bookId,
+    String title,
   );
   Future<Result<void>> deleteReadingList(String readingListId);
   Future<Result<ReadingListEntity>> getReadingListByName(

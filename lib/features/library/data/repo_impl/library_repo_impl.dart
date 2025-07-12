@@ -83,14 +83,14 @@ class LibraryRepoImpl implements LibraryRepo {
   @override
   Future<Result<void>> removeBookFromReadingList(
     String readingListId,
-    String bookId,
+    String title,
   ) async {
     final userId = await _authLocalDataSource.getUserId();
     return _apiManager.execute(
       () async => await _libraryRemoteDataSource.removeBookFromReadingList(
         userId!,
         readingListId,
-        bookId,
+        title,
       ),
     );
   }

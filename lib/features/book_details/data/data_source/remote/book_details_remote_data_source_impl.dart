@@ -60,19 +60,26 @@ class BookDetailsRemoteDataSourceImpl implements BookDetailsRemoteDataSource {
     String readingListId,
     BookDto book,
   ) async {
-    final bookData = book.toFirestore();
-    final readingListRef = await firestore
-        .collection('users')
-        .doc(userId)
-        .collection('readingLists')
+    final userRef = firestore.collection('users').doc(userId);
+    final readingListsRef = userRef.collection('readingLists');
+
+    final readingListQuery = await readingListsRef
         .where('id', isEqualTo: readingListId)
         .get();
-    await firestore
-        .collection('users')
-        .doc(userId)
-        .collection('readingLists')
-        .doc(readingListRef.docs.first.id)
-        .collection('books')
-        .add(bookData);
+
+    final readingListDoc = readingListQuery.docs.first;
+    final readingListDocRef = readingListsRef.doc(readingListDoc.id);
+
+    await readingListDocRef.collection('books').add(book.toFirestore());
+
+    await firestore.runTransaction((transaction) async {
+      final snapshot = await transaction.get(readingListDocRef);
+      final data = snapshot.data();
+      final currentCount = (data?['numberOfBooks'] ?? 0) as int;
+
+      transaction.update(readingListDocRef, {
+        'numberOfBooks': currentCount + 1,
+      });
+    });
   }
 }

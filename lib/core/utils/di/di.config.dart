@@ -85,8 +85,10 @@ import '../../../features/library/domain/usecase/get_reading_lists_use_case.dart
     as _i760;
 import '../../../features/library/domain/usecase/remove_book_from_reading_list_use_case.dart'
     as _i889;
-import '../../../features/library/presentaion/view_model/library_cubit.dart'
-    as _i496;
+import '../../../features/library/presentaion/view_model/library/library_cubit.dart'
+    as _i258;
+import '../../../features/library/presentaion/view_model/library_books/library_books_cubit.dart'
+    as _i635;
 import '../../../features/main_layout/presentation/view_model/main_layout_cubit.dart'
     as _i233;
 import '../../../features/search/data/data_source/contract/search_remote_data_source.dart'
@@ -194,6 +196,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i889.RemoveBookFromReadingListUseCase>(
       () => _i889.RemoveBookFromReadingListUseCase(gh<_i101.LibraryRepo>()),
     );
+    gh.factory<_i635.LibraryBooksCubit>(
+      () => _i635.LibraryBooksCubit(
+        gh<_i263.GetBooksInReadingListUseCase>(),
+        gh<_i889.RemoveBookFromReadingListUseCase>(),
+      ),
+    );
     gh.factory<_i148.BookDetailsRepo>(
       () => _i1072.BookDetailsRepoImpl(
         gh<_i830.BookDetailsRemoteDataSource>(),
@@ -207,8 +215,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i943.ApiManager>(),
       ),
     );
-    gh.factory<_i496.LibraryCubit>(
-      () => _i496.LibraryCubit(
+    gh.factory<_i258.LibraryCubit>(
+      () => _i258.LibraryCubit(
         gh<_i760.GetReadingListsUseCase>(),
         gh<_i949.AddReadingListUseCase>(),
         gh<_i1066.DeleteReadingListUseCase>(),

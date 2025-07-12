@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_app/features/library/presentaion/view/widgets/add_reading_list_bottom_sheet.dart';
 import 'package:library_app/features/library/presentaion/view/widgets/my_list_item.dart';
 
-import '../../../../core/assets/app_colors.dart';
-import '../../../../core/base/base_state.dart';
-import '../../../../core/utils/di/di.dart';
-import '../../domain/entity/reading_list_entity.dart';
-import '../view_model/library_cubit.dart';
-import '../view_model/library_state.dart';
+import '../../../../../core/assets/app_colors.dart';
+import '../../../../../core/base/base_state.dart';
+import '../../../../../core/utils/di/di.dart';
+import '../../../../../core/utils/routes/route_name.dart';
+import '../../../domain/entity/reading_list_entity.dart';
+import '../../view_model/library/library_cubit.dart';
+import '../../view_model/library/library_state.dart';
 
 class MyLibraryScreen extends StatelessWidget {
   MyLibraryScreen({super.key});
@@ -78,19 +79,26 @@ class MyLibraryScreen extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 20,
                                 ),
-                                color: Colors.red,
+                                color: AppColors.red,
                                 child: const Icon(
                                   Icons.delete,
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                 ),
                               ),
                               confirmDismiss: (_) async {
                                 viewModel.doIntent(DeleteReadingList(list.id!));
                                 return false;
                               },
-                              child: MyListItem(
-                                title: list.name ?? '',
-                                subtitle: '${list.numberOfBooks ?? 0} books',
+                              child: GestureDetector(
+                                child: MyListItem(
+                                  title: list.name ?? '',
+                                  subtitle: '${list.numberOfBooks ?? 0} books',
+                                ),
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  RouteName.libraryBookScreen,
+                                  arguments: list,
+                                ),
                               ),
                             );
                           },
@@ -119,7 +127,7 @@ class MyLibraryScreen extends StatelessWidget {
               );
             },
             backgroundColor: AppColors.blue,
-            child: const Icon(Icons.add, color: Colors.white),
+            child: const Icon(Icons.add, color: AppColors.white),
           ),
         ),
       ),

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/assets/app_colors.dart';
 import '../../../../../core/base/base_state.dart';
-import '../../view_model/library_cubit.dart';
-import '../../view_model/library_state.dart';
+import '../../view_model/library/library_cubit.dart';
+import '../../view_model/library/library_state.dart';
 
 class AddReadingListBottomSheet extends StatelessWidget {
   const AddReadingListBottomSheet({super.key});
