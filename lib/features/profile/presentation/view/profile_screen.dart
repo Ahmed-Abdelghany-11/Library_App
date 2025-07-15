@@ -65,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
               return Center(child: Text(baseState.errorMessage));
             }
 
-            return const SizedBox(); // Empty state or initial state
+            return const SizedBox();
           },
         ),
       ),
