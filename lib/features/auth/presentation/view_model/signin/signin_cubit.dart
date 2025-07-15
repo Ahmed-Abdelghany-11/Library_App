@@ -53,9 +53,10 @@ class SigninCubit extends Cubit<SigninState> {
     }
   }
 
-  void dispose() {
+  @override
+  Future<void> close() async {
     emailController.dispose();
     passwordController.dispose();
-    super.close();
+    return super.close();
   }
 }

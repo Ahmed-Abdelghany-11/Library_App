@@ -58,7 +58,8 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  void dispose() {
+  @override
+  Future<void> close() async {
     firstNameController.dispose();
     lastNameController.dispose();
     emailController.dispose();
